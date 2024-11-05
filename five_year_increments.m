@@ -174,10 +174,11 @@ end
 
 % Convert cell array to table for better display
 variable_names = [{'Country', 'CountryCode'}, strcat('Score_', string(analysis_periods(1:end-1)))];
-incremental_country_scores_table = cell2table(increment_country_scores_matrix, 'VariableNames', variable_names);
+incremental_country_scores_table = cell2table(increment_country_scores_matrix(valid_indices, :), 'VariableNames', variable_names); % Only using valid countries (valid_indices obtained from previous script)
 
 % Save table into another sheet in excel file
 writetable(incremental_country_scores_table, excelFilename, 'Sheet', 'Five Year Increments');
+
 
 % Extract the relevant data from the table
 country_codes = incremental_country_scores_table.CountryCode;
@@ -212,7 +213,7 @@ ylabel('Score');
 title('Country Scores for Incremental Time Periods');
 
 % Add a legend and position it in the best location
-legend([plot1, average], 'Location', 'northeast', 'FontSize', 10);
+legend([plot1, average], 'Location', 'southeast', 'FontSize', 10);
 
 % Set x-axis ticks and labels
 xticks(time_periods);
